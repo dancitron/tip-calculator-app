@@ -10,6 +10,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import lightTheme from '../themes/primary';
 import {ReactComponent as Dollar} from '../icon-dollar.svg';
 import {ReactComponent as Person} from '../icon-person.svg';
+import NumberFormat from 'react-number-format';
 
 //Desktop provides desktop layout for tip calculator
 
@@ -31,11 +32,11 @@ function Desktop() {
 
   //reset function clears all states on reset click
   const reset = () => {
-    setBill('')
-    setTip('')
-    setTipAmount('')
-    setPeople('')
-    setTotal('')
+    setBill()
+    setTip()
+    setTipAmount()
+    setPeople()
+    setTotal()
     setResetter('')
     setAlignment('')
   }
@@ -47,8 +48,9 @@ function Desktop() {
 
 //used for setting state of tip based on button press. Function also prevents tip from populating in custom tip field
   const tipHandler = (tip) => {
-    setResetter('')
     setTip(tip)
+    setResetter('')
+
   };
 
  
@@ -62,7 +64,7 @@ function Desktop() {
   //calculates total amount
   useEffect(() => {
     let value = ((bill/people)+tipAmount)
-    setTotal(value)  
+    setTotal(value)
   }, [tipAmount, bill, people])
 
 
@@ -275,7 +277,7 @@ function Desktop() {
                 InputProps={{
                   disableUnderline: true,
                 }}
-                value={resetter || false}
+                value={resetter}
                 inputProps={{ style: {textAlign: 'center', paddingRight: '10px'} }}
                 type="number"
                 style={{
@@ -378,7 +380,15 @@ function Desktop() {
                       fontSize: '42px'
                     }}>
                     
-                    {isNaN(tipAmount) ? "$0.00" : <div>${tipAmount.toFixed(2)}</div>}                    
+                    {isNaN(tipAmount) ? "$0.00" : <div><NumberFormat
+                                                      value={tipAmount}
+                                                      displayType={'text'}
+                                                      thousandSeparator={true}
+                                                      fixedDecimalScale={true}
+                                                      decimalScale={2}
+                                                      prefix={'$'}
+                                                      renderText={(value, props) => <div {...props}>{value}</div>}
+                                                    /></div>}                    
                   </div>
                 </div>
 
@@ -423,7 +433,15 @@ function Desktop() {
 
 
                       }}>
-                        {isNaN(total) ? "$0.00": <div>${total.toFixed(2)}</div>}
+                        {isNaN(total) ? "$0.00": <NumberFormat
+                                                      value={total}
+                                                      displayType={'text'}
+                                                      thousandSeparator={true}
+                                                      fixedDecimalScale={true}
+                                                      decimalScale={2}
+                                                      prefix={'$'}
+                                                      renderText={(value, props) => <div {...props}>{value}</div>}
+                                                    />}
                     </div>
 
                   </div>

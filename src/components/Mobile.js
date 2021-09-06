@@ -10,15 +10,16 @@ import {ThemeProvider } from '@material-ui/core/styles';
 import lightTheme from '../themes/primary';
 import {ReactComponent as Dollar} from '../icon-dollar.svg';
 import {ReactComponent as Person} from '../icon-person.svg';
+import NumberFormat from 'react-number-format';
 
 //Mobile version of Desktop design. Check Desktop documentation for fucntion documentation.
 
 function Desktop() {
 
-  var [bill, setBill] = useState("");
+  var [bill, setBill] = useState();
   var [tip, setTip] = useState();
   var [tipAmount, setTipAmount] = useState();
-  var [people, setPeople] = useState("");
+  var [people, setPeople] = useState();
   var [total, setTotal] = useState();
   var [resetState, setResetState] = useState(true);
   var [resetter, setResetter] = useState();
@@ -31,11 +32,11 @@ function Desktop() {
 
   
   const reset = () => {
-    setBill('')
-    setTip('')
-    setTipAmount('')
-    setPeople('')
-    setTotal('')
+    setBill()
+    setTip()
+    setTipAmount()
+    setPeople()
+    setTotal()
     setResetter('')
     setAlignment('')
   }
@@ -53,19 +54,18 @@ function Desktop() {
 
  
 
-  useEffect(() => {
-    var x = ((bill * tip)/people)
-    var y = x.toFixed(2)
-    setTipAmount(y)
-  }, [tip, bill, people])
- 
-  useEffect(() => {
-    var a = parseInt(tipAmount)
-    var value = ((bill/people) + a)
-    console.log(value)
-    var b = parseFloat(value).toFixed(2)
-    setTotal(b)  
-  }, [tipAmount, bill, people])
+//Calculates tip amount per person
+
+useEffect(() => {
+  var x = ((bill * tip)/people)
+  setTipAmount(x)
+}, [tip, bill, people])
+
+//calculates total amount
+useEffect(() => {
+  let value = ((bill/people)+tipAmount)
+  setTotal(value)
+}, [tipAmount, bill, people])
 
 
   useEffect(() => {
@@ -382,7 +382,15 @@ function Desktop() {
                       fontSize: '42px'
                     }}>
                     
-                    {isNaN(tipAmount) ? "$0.00" : <div>${tipAmount}</div>}                    
+                    {isNaN(tipAmount) ? "$0.00" : <div><NumberFormat
+                                                      value={tipAmount}
+                                                      displayType={'text'}
+                                                      thousandSeparator={true}
+                                                      fixedDecimalScale={true}
+                                                      decimalScale={2}
+                                                      prefix={'$'}
+                                                      renderText={(value, props) => <div {...props}>{value}</div>}
+                                                    /></div>}                     
                   </div>
                 </div>
 
@@ -427,7 +435,15 @@ function Desktop() {
 
 
                       }}>
-                        {isNaN(total) ? "$0.00": <div>${total}</div>}
+                                            {isNaN(tipAmount) ? "$0.00" : <div><NumberFormat
+                                                      value={total}
+                                                      displayType={'text'}
+                                                      thousandSeparator={true}
+                                                      fixedDecimalScale={true}
+                                                      decimalScale={2}
+                                                      prefix={'$'}
+                                                      renderText={(value, props) => <div {...props}>{value}</div>}
+                                                    /></div>}   
                     </div>
 
                   </div>
