@@ -104,8 +104,8 @@ function Desktop() {
 
         <div style={{
           backgroundColor : 'white',
-          width:'70%',
-          height: '450px',
+          minWidth:'70%',
+          height: '55%',
           marginBottom: "50px",
           display: "flex",
           flexShrink: '1',
@@ -116,7 +116,8 @@ function Desktop() {
         }}>
 
             <div style = {{ 
-              width: "350px",
+              width: "39%",
+              minWidth: "30%",
               margin: "0",
               display: "flex",
               flexDirection: "column",
@@ -329,7 +330,7 @@ function Desktop() {
 
             <div style={{
                 backgroundColor : "#00494d",
-                width: "450px",
+                width: "39%",
                 height: '600px',
                 flexShrink: '1',
                 maxHeight: '45vh',
